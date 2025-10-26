@@ -299,7 +299,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT
 
                 if (mods & MOD_MASK_SHIFT) { // Si SHIFT est actif
-                    tap_code16(FR_EXLM); // Envoie '!'
+                    SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_P0) SS_TAP(X_P1) SS_TAP(X_P8) SS_TAP(X_P5) SS_UP(X_LALT)); // '¹'
                 } else {
                     tap_code16(FR_1); // Envoie '1'
                 }
@@ -313,7 +313,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT
 
                 if (mods & MOD_MASK_SHIFT) { // Si SHIFT est actif
-                    tap_code16(FR_AT); // Envoie '@'
+                    SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_P0) SS_TAP(X_P1) SS_TAP(X_P7) SS_TAP(X_P8) SS_UP(X_LALT)); // '²'
                 } else {
                     tap_code16(FR_2); // Envoie '2'
                 }
@@ -327,7 +327,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT
 
                 if (mods & MOD_MASK_SHIFT) { // Si SHIFT est actif
-                    tap_code16(FR_HASH); // Envoie '#'
+                    SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_P0) SS_TAP(X_P1) SS_TAP(X_P7) SS_TAP(X_P9) SS_UP(X_LALT)); // '³'
                 } else {
                     tap_code16(FR_3); // Envoie '3'
                 }
