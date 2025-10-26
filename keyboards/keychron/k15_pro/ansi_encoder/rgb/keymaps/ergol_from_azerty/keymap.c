@@ -16,9 +16,13 @@
 
 #include QMK_KEYBOARD_H
 // #include "quantum\keymap_extras\keymap_french.h"
-// #include "quantum\unicode.h"
+// #include "quantum\unicode\unicode.h"
 #include "quantum\keymap_extras\sendstring_french.h"
 
+// Windows Alt Code :
+// https://alt-codes.fr/tables/windows/
+// exemple :
+// SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_P0) SS_TAP(X_P2) SS_TAP(X_P0) SS_TAP(X_P1) SS_UP(X_LALT)); // 'É'
 
 #include QMK_KEYBOARD_H
 
@@ -68,58 +72,81 @@ enum custom_keycodes {
     EL_RBRC,                  // ']/}'
     EL_BSLS,                  // '\/|'
     EL_QUOT,                  // ''/"'
+    EL_EACC,                  // 'é/É'
+    EL_AACC                   // 'à/À'
 
 };
 #define FR_CIRC2 ALGR(KC_9) // ^ undead
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
     switch (keycode) {
 
         case FR_DIAE2:
             if (record->event.pressed) {
-                tap_code16(FR_DIAE);  // Dead key pour le tréma
-                tap_code(KC_SPC);     // Lettre 'O'
+                uint8_t mods = get_mods(); // Sauvegarde les modificateurs actuels
+                del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT
+                tap_code16(FR_DIAE);  // Dead key pour le grav
+                set_mods(mods); // Restaure les modificateurs
+                tap_code(KC_SPC);     // Lettre ' '
+                tap_code(KC_SPC);     // Lettre ' '
             }
             return false;
         case FR_TILD2:
             if (record->event.pressed) {
-                tap_code16(FR_TILD);  // Dead key pour le tréma
-                tap_code(KC_SPC);     // Lettre 'O'
+                tap_code16(FR_TILD);  // Dead key pour le ~
+                tap_code(KC_SPC);     // Lettre ' '
             }
             return false;
         case FR_GRV2:
             if (record->event.pressed) {
-                tap_code16(FR_GRV);  // Dead key pour le tréma
-                tap_code(KC_SPC);     // Lettre 'O'
+                tap_code16(FR_GRV);  // Dead key pour le grav
+                tap_code(KC_SPC);     // Lettre ' '
             }
             return false;
 
         // Lettres avec tréma
         case FR_O_TREMA:
             if (record->event.pressed) {
-                tap_code16(FR_DIAE);  // Dead key pour le tréma
+                uint8_t mods = get_mods(); // Sauvegarde les modificateurs actuels
+                del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT
+                tap_code16(FR_DIAE);  // Dead key pour le grav
+                set_mods(mods); // Restaure les modificateurs
+                tap_code(KC_SPC);     // Lettre ' '
                 tap_code(FR_O);     // Lettre 'O'
             }
             return false;
 
         case FR_U_TREMA:
             if (record->event.pressed) {
-                tap_code16(FR_DIAE);  // Dead key pour le tréma
+                uint8_t mods = get_mods(); // Sauvegarde les modificateurs actuels
+                del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT
+                tap_code16(FR_DIAE);  // Dead key pour le grav
+                set_mods(mods); // Restaure les modificateurs
+                tap_code(KC_SPC);     // Lettre ' '
                 tap_code(FR_U);     // Lettre 'U'
             }
             return false;
 
         case FR_E_TREMA:
             if (record->event.pressed) {
-                tap_code16(FR_DIAE);  // Dead key pour le tréma
+                uint8_t mods = get_mods(); // Sauvegarde les modificateurs actuels
+                del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT
+                tap_code16(FR_DIAE);  // Dead key pour le grav
+                set_mods(mods); // Restaure les modificateurs
+                tap_code(KC_SPC);     // Lettre ' '
                 tap_code(FR_E);     // Lettre 'E'
             }
             return false;
 
         case FR_I_TREMA:
             if (record->event.pressed) {
-                tap_code16(FR_DIAE);  // Dead key pour le tréma
+                uint8_t mods = get_mods(); // Sauvegarde les modificateurs actuels
+                del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT
+                tap_code16(FR_DIAE);  // Dead key pour le grav
+                set_mods(mods); // Restaure les modificateurs
+                tap_code(KC_SPC);     // Lettre ' '
                 tap_code(FR_I);     // Lettre 'I'
             }
             return false;
@@ -127,36 +154,51 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         // Lettres avec circonflexe
         case FR_O_CIRC:
             if (record->event.pressed) {
-                tap_code16(FR_CIRC);  // Dead key pour le circonflexe
-                tap_code(FR_O);     // Lettre 'O'
+              uint8_t mods = get_mods(); // Sauvegarde les modificateurs actuels
+              del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT
+              tap_code16(FR_CIRC);  // Dead key pour le circonflexe
+              set_mods(mods); // Restaure les modificateurs
+              tap_code(FR_O);     // Lettre 'O'
             }
             return false;
 
         case FR_U_CIRC:
             if (record->event.pressed) {
-                tap_code16(FR_CIRC);  // Dead key pour le circonflexe
-                tap_code(FR_U);     // Lettre 'U'
+              uint8_t mods = get_mods(); // Sauvegarde les modificateurs actuels
+              del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT
+              tap_code16(FR_CIRC);  // Dead key pour le circonflexe
+              set_mods(mods); // Restaure les modificateurs
+              tap_code(FR_U);     // Lettre 'U'
             }
             return false;
 
         case FR_E_CIRC:
             if (record->event.pressed) {
+                uint8_t mods = get_mods(); // Sauvegarde les modificateurs actuels
+                del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT
                 tap_code16(FR_CIRC);  // Dead key pour le circonflexe
+                set_mods(mods); // Restaure les modificateurs
                 tap_code(FR_E);     // Lettre 'E'
             }
             return false;
 
         case FR_I_CIRC:
             if (record->event.pressed) {
+                uint8_t mods = get_mods(); // Sauvegarde les modificateurs actuels
+                del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT
                 tap_code16(FR_CIRC);  // Dead key pour le circonflexe
+                set_mods(mods); // Restaure les modificateurs
                 tap_code(FR_I);     // Lettre 'I'
             }
             return false;
 
         case FR_A_CIRC:
           if (record->event.pressed) {
-              tap_code16(FR_CIRC);  // Dead key pour le circonflexe
-              tap_code(FR_A);     // Lettre 'A'
+            uint8_t mods = get_mods(); // Sauvegarde les modificateurs actuels
+            del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT
+            tap_code16(FR_CIRC);    // Dead key pour le circonflexe
+            set_mods(mods);         // Restaure les modificateurs
+            tap_code(FR_A);         // Lettre 'A'
           }
           return false;
 
@@ -180,7 +222,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
            uint8_t mods = get_mods();
           if(record->event.pressed && (mods & MOD_MASK_SHIFT))
           {
-            del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT                if (mods & MOD_MASK_SHIFT) { // Si SHIFT est actif
+            del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT               
             tap_code16(FR_EXLM);
             set_mods(mods); // Restaure les modificateurs
             return false;
@@ -448,6 +490,35 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
+        case EL_EACC:
+            if (record->event.pressed) {
+                uint8_t mods = get_mods(); // Sauvegarde les modificateurs actuels
+                del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT
+
+                if (mods & MOD_MASK_SHIFT) { // Si SHIFT est actif
+                    SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_P0) SS_TAP(X_P2) SS_TAP(X_P0) SS_TAP(X_P1) SS_UP(X_LALT)); // 'É'
+                } else {
+                    tap_code16(FR_EACU); // Envoie 'é'
+                }
+
+                set_mods(mods); // Restaure les modificateurs
+            }
+            return false;
+
+        case EL_AACC:
+            if (record->event.pressed) {
+                uint8_t mods = get_mods(); // Sauvegarde les modificateurs actuels
+                del_mods(MOD_MASK_SHIFT); // Désactive temporairement SHIFT
+
+                if (mods & MOD_MASK_SHIFT) { // Si SHIFT est actif
+                    SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_P0) SS_TAP(X_P1) SS_TAP(X_P9) SS_TAP(X_P2) SS_UP(X_LALT)); // 'À'
+                } else {
+                    tap_code16(FR_AGRV); // Envoie 'à'
+                }
+
+                set_mods(mods); // Restaure les modificateurs
+            }
+            return false;
 
         default:
             return true;  // Les autres touches restent inchangées
@@ -458,27 +529,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [MAC_BASE] = LAYOUT_90_ansi(
-        KC_MUTE,    KC_INS,             KC_F1,    KC_F2,    KC_F3,    KC_F4,  KC_F5,            KC_F6,    KC_F7, KC_F8,      KC_F9,           KC_F10,   KC_F11,    KC_F12,   KC_PGUP,  KC_PGDN,
-        MC_1,       KC_GRV,             EL_1,     EL_2,     EL_3,     EL_4,   EL_5,             EL_6,     EL_7,  EL_8,       EL_9,            EL_0,     EL_MINS2,  EL_EQL,   KC_BSPC,  KC_DEL,
-        MC_2,       KC_TAB,             FR_Q,     FR_C,     FR_O,     FR_P,   FR_W,             FR_J,     FR_M,  FR_D,       OSL(ERGOL_ACC),  FR_Y,     KC_BSPC,   KC_RSFT,  KC_ENT,  KC_HOME,
-        KC_CAPS,    KC_APP,             FR_A,     FR_S,     FR_E,     FR_N,   FR_F,             FR_L,     FR_R,  FR_T,       FR_I,            FR_U,     KC_ENT,        KC_ENT,        KC_END,
+        KC_MUTE,    KC_ESC,             KC_F1,    KC_F2,    KC_F3,    KC_F4,  KC_F5,            KC_F6,    KC_F7, KC_F8,      KC_F9,           KC_F10,   KC_F11,    KC_F12,   KC_PGUP,  KC_PGDN,
+        MC_1,       KC_INS,             EL_1,     EL_2,     EL_3,     EL_4,   EL_5,             EL_6,     EL_7,  EL_8,       EL_9,            EL_0,     EL_MINS2,  EL_EQL,   KC_BSPC,  KC_DEL,
+        MC_2,       KC_TAB,             FR_Q,     FR_C,     FR_O,     FR_P,   FR_W,             FR_J,     FR_M,  FR_D,       OSL(ERGOL_ACC),  FR_Y,     KC_BSPC,   KC_BSPC,  KC_RSFT,  KC_HOME,
+        KC_CAPS,    KC_APP,             FR_A,     FR_S,     FR_E,     FR_N,   FR_F,             FR_L,     FR_R,  FR_T,       FR_I,            FR_U,     KC_ENT,        KC_ENT,         KC_END,
         KC_PSCR,    KC_LSFT,            FR_Z,     FR_X,     EL_MINS,  FR_V,   FR_B,       FR_B, EL_DOT,   FR_H,  FR_G,       EL_COMM,         FR_K,         KC_DEL,         KC_UP,
-        MC_5,       KC_LCTL,  KC_LWIN,           KC_LALT,          KC_SPC,  KC_LSFT,            MO(ERGOL_SPE),   MO(MAC_FN), KC_RCTL,                             KC_LEFT,  KC_DOWN,  KC_RGHT),
+        KC_LCTL,    KC_LCTL,  KC_LWIN,           KC_LALT,          KC_SPC,  KC_LSFT,            MO(ERGOL_SPE),   MO(MAC_FN), KC_RCTL,                             KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [MAC_FN] = LAYOUT_90_ansi(
         _______,    _______,            KC_BRID,  KC_BRIU,  KC_MCTL,  KC_LPAD,  _______,             _______,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,  _______,   _______,
-        _______,    _______,            _______,  _______,  _______,  _______,  _______,             _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,
-        _______,    _______,            KC_TAB ,  KC_HOME,  KC_UP  ,  KC_END ,  KC_PGUP,             _______,  _______,  KC_P7   ,  KC_P8 ,  KC_P9  ,  KC_NUM ,  _______,  _______,   _______,
-        _______,    _______,            KC_LSFT,  KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_PGDN,             _______,  EL_MINS,  KC_P4   ,  KC_P5 ,  KC_P6  ,  KC_P0  ,         _______,      _______,
-        _______,    _______,            KC_RCTL,  _______,  _______,  _______,  _______,  _______,   _______,  EL_COMM,  KC_P1   ,  KC_P2 ,  KC_P3  ,        KC_PDOT,       _______,
-        _______,    _______,  _______,            _______,         _______,  _______,                _______,            _______,   _______,                      _______,  _______,  _______),
+        _______,     KC_NUM,            _______,  _______,  _______,  _______,  _______,             _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,
+        _______,    _______,            KC_TAB ,  KC_HOME,  KC_UP  ,  KC_END ,  KC_PGUP,             _______,  KC_P7   ,  KC_P8 ,  KC_P9  ,  _______,  _______,  _______,  _______,   _______,
+        _______,    _______,            KC_LSFT,  KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_PGDN,             EL_MINS,  KC_P4   ,  KC_P5 ,  KC_P6  ,  KC_P0  ,  _______,       _______,        _______,
+        _______,    _______,            KC_RCTL,  _______,  _______,  _______,  _______,  EL_COMM,   KC_PDOT,  KC_P1   ,  KC_P2 ,  KC_P3  ,  KC_PDOT,        _______,       _______,
+        _______,    _______,  _______,            _______,         _______,  _______,                _______,            _______,  _______,                       _______,  _______,  _______),
 
     [WIN_BASE] = LAYOUT_90_ansi(
         KC_MUTE,    KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,     KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_PGUP,            KC_PGDN,
         MC_1,       KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,      KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,            KC_DEL,
-        MC_2,       KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,      KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,            KC_HOME,
-        MC_3,       KC_CAPS,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,      KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,            KC_ENT,             KC_END,
-        MC_4,       KC_LSFT,            KC_Z,     KC_X,     KC_C,     KC_V,      KC_B,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,      KC_UP,
+        MC_2,       KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,      KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_BSPC,  KC_BSPC,  KC_RSFT,            KC_HOME,
+        MC_3,       KC_CAPS,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,      KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_ENT,        KC_ENT,                  KC_END,
+        MC_4,       KC_LSFT,            KC_Z,     KC_X,     KC_C,     KC_V,      KC_B,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_DEL,        KC_UP,
         MC_5,       KC_LCTL,  KC_LWIN,            KC_LALT,  KC_SPC,   KC_LSFT,                        KC_RALT,          MO(WIN_FN), KC_RCTL,               KC_LEFT,  KC_DOWN,  KC_RGHT),
    
     [WIN_FN] = LAYOUT_90_ansi(
@@ -493,7 +564,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,    _______,            _______,    _______,    _______,    _______,     _______,           _______, _______,    _______,    _______,     _______,    _______,   _______,   _______,        _______,
         _______,    _______,            _______,    _______,   FR_O_TREMA,  _______,     _______,           _______, _______,    _______,    _______,     _______,    _______,   _______,   _______,        _______,
         _______,    _______,            FR_A_CIRC,  FR_CCED,   FR_O_CIRC,   FR_CURRENCY, _______,           _______, FR_MICR,    FR_UNDS,    FR_DQUO,     FR_U_CIRC,  _______,   _______,   _______,        _______,
-        _______,    _______,            FR_AGRV,    FR_EACU,    FR_EGRV,    FR_E_CIRC,   _______,           _______, _______,    FR_I_CIRC,  FR_I_TREMA,  FR_UGRV,    _______,        _______,              _______,
+        _______,    _______,            EL_AACC,    EL_EACC,    FR_EGRV,    FR_E_CIRC,   _______,           _______, _______,    FR_I_CIRC,  FR_I_TREMA,  FR_UGRV,    _______,        _______,              _______,
         _______,    _______,            _______,    _______,   FR_E_TREMA,  _______,     _______, _______,  _______, _______,    _______,    _______,     _______,           _______,        _______,
         _______,    _______,   _______,             _______,          FR_QUOT,           _______,                 FR_QUOT,       _______,    _______,                             _______,   _______,   _______), 
         
