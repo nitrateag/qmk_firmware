@@ -29,8 +29,8 @@
 
 
 enum layers{
-    MAC_BASE,
-    MAC_FN,
+    ERGOL_BASE,
+    ERGOL_FN,
     WIN_BASE,
     WIN_FN,
     ERGOL_ACC,
@@ -75,6 +75,8 @@ enum custom_keycodes {
     EL_QUOT,                  // ''/"'
     EL_EACC,                  // 'é/É'
     EL_AACC,                  // 'à/À'
+    EL_EGRV,                  // 'è/È'
+    EL_UACC,                  // 'ù/Ù'
     EL_CCED                   // 'ç/Ç'
 
 };
@@ -85,17 +87,14 @@ enum custom_keycodes {
     if(!host_keyboard_led_state().num_lock) { \
       tap_code16(KC_NUM); \
     } \
-    SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_P#v0) SS_TAP(X_P#v1) SS_TAP(X_P#v2) SS_TAP(X_P#v3) SS_UP(X_LALT)) /* 'le AltCode' */
+    SEND_STRING(SS_DOWN(X_LALT) SS_TAP(v0) SS_TAP(v1) SS_TAP(v2) SS_TAP(v3) SS_UP(X_LALT)) /* 'le AltCode' */
 
 #define send_min_maj_altcode( min,  maj1,  maj2,  maj3) \
   uint8_t mods = get_mods(); /* Sauvegarde les modificateurs actuels */ \
   del_mods(MOD_MASK_SHIFT); /* Désactive temporairement SHIFT */ \
 \
   if (mods & MOD_MASK_SHIFT) { /* Si SHIFT est actif */ \
-    if(!host_keyboard_led_state().num_lock) { \
-      tap_code16(KC_NUM); \
-    } \
-    SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_P0) SS_TAP(X_P#maj1) SS_TAP(X_P#maj2) SS_TAP(X_P#maj3) SS_UP(X_LALT)); /* 'le AltCode' */ \
+    send_alt_code(X_P0, maj1, maj2, maj3); /* Envoie 'le caractère majuscule' en Alt+Code */ \
   } else { \
     tap_code16(min); /* Envoie 'le caractère minuscule classique' */ \
   } \
@@ -107,9 +106,9 @@ enum custom_keycodes {
   del_mods(MOD_MASK_SHIFT); /* Désactive temporairement SHIFT */ \
 \
   if (mods & MOD_MASK_SHIFT) { /* Si SHIFT est actif */ \
-    send_alt_code(0, #maj1, #maj2, #maj3); /* Envoie 'le caractère majuscule' en Alt+Code */ \
+    send_alt_code(X_P0, maj1, maj2, maj3); /* Envoie 'le caractère majuscule' en Alt+Code */ \
   } else { \
-    send_alt_code(0, #min1, #min2, #min3); /* Envoie 'le caractère minuscule' en Alt+Code */ \
+    send_alt_code(X_P0, min1, min2, min3); /* Envoie 'le caractère minuscule' en Alt+Code */ \
   } \
 \
   set_mods(mods) /* Restaure les modificateurs */
@@ -144,58 +143,58 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         // Lettres avec tréma
         case FR_O_TREMA:
             if (record->event.pressed) {
-              send_min_altcode_maj_altcode(2,4,6, 2,1,4);
+              send_min_altcode_maj_altcode(X_P2, X_P4, X_P6,       X_P2, X_P1, X_P4);
             }
             return false;
 
         case FR_U_TREMA:
             if (record->event.pressed) {
-              send_min_altcode_maj_altcode(2,5,2, 2,2,0);
+              send_min_altcode_maj_altcode(X_P2, X_P5, X_P2,       X_P2, X_P2, X_P0);
             }
             return false;
 
         case FR_E_TREMA:
             if (record->event.pressed) {
-              send_min_altcode_maj_altcode(2,3,5, 2,0,3);
+              send_min_altcode_maj_altcode(X_P2, X_P3, X_P5,       X_P2, X_P0, X_P3);
             }
             return false;
 
         case FR_I_TREMA:
             if (record->event.pressed) {
-              send_min_altcode_maj_altcode(2,3,9, 2,0,7);
+              send_min_altcode_maj_altcode(X_P2, X_P3, X_P9,       X_P2, X_P0, X_P7);
             }
             return false;
 
         // Lettres avec circonflexe
         case FR_O_CIRC:
             if (record->event.pressed) {
-              send_min_altcode_maj_altcode(2,4,4, 2,1,2);
+              send_min_altcode_maj_altcode(X_P2, X_P4, X_P4,       X_P2, X_P1, X_P2);
             }
             return false;
 
         case FR_U_CIRC:
             if (record->event.pressed) {
-              send_min_altcode_maj_altcode(2,5,1, 2,1,9);
+              send_min_altcode_maj_altcode(X_P2, X_P5, X_P1,       X_P2, X_P1, X_P9);
             }
             return false;
 
         case FR_E_CIRC:
             if (record->event.pressed) {
-              send_min_altcode_maj_altcode(2,3,4, 2,0,2);
+              send_min_altcode_maj_altcode(X_P2, X_P3, X_P4,       X_P2, X_P0, X_P2);
             }
             return false;
 
         case FR_I_CIRC:
             if (record->event.pressed) {
-              send_min_altcode_maj_altcode(2,3,8, 2,0,6);
+              send_min_altcode_maj_altcode(X_P2, X_P3, X_P8,       X_P2, X_P0, X_P6);
             }
             return false;
 
         case FR_A_CIRC:
-          if (record->event.pressed) {
-            send_min_altcode_maj_altcode(2,2,6, 1,9,4);
-          }
-          return false;
+            if (record->event.pressed) {
+              send_min_altcode_maj_altcode(X_P2, X_P2, X_P6,       X_P1, X_P9, X_P4);
+            }
+            return false;
 
         // Gestion de '€' et '¤'
         case FR_CURRENCY:
@@ -290,17 +289,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case EL_1:
           if (record->event.pressed){
-            send_min_maj_altcode(FR_1, 1,8,5); // '1/¹'
+            send_min_maj_altcode(FR_1, X_P1, X_P8, X_P5); // '1/¹'
             }
           return false;
         case EL_2:
           if (record->event.pressed) {
-            send_min_maj_altcode(FR_2, 1,7,8); // '2/²'
+            send_min_maj_altcode(FR_2, X_P1, X_P7, X_P8); // '2/²'
           }
           return false;
         case EL_3:
           if (record->event.pressed) {
-            send_min_maj_altcode(FR_3, 1,7,9); // '3/³'
+            send_min_maj_altcode(FR_3, X_P1, X_P7, X_P9); // '3/³'
           }
           return false;
         case EL_4:
@@ -459,22 +458,35 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
 
         case EL_EACC:
-          if (record->event.pressed) {
-            send_min_maj_altcode(FR_EACU, 2,0,1); // 'é/É'
-          }
-          return false;
+            if (record->event.pressed) {
+              send_min_maj_altcode(FR_EACU, X_P2, X_P0, X_P1); // 'é/É'
+            }
+            return false;
 
         case EL_AACC:
-          if (record->event.pressed) {
-            send_min_maj_altcode(FR_AGRV, 1,9,2); // 'à/À'
-          }
-          return false;
+            if (record->event.pressed) {
+              send_min_maj_altcode(FR_AGRV, X_P1, X_P9, X_P2); // 'à/À'
+            }
+            return false;
+
+        case EL_UACC:
+            if (record->event.pressed) {
+              send_min_maj_altcode(FR_UGRV, X_P2, X_P1, X_P7); // 'ù/Ù'
+            }
+            return false;
+
+        case EL_EGRV:
+            if (record->event.pressed) {
+              send_min_maj_altcode(FR_EGRV, X_P2, X_P0, X_P0); // 'è/È'
+            }
+            return false;
 
         case EL_CCED:
-          if (record->event.pressed) {
-            send_min_maj_altcode(FR_CCED, 1,9,9); // 'ç/Ç'
-          }
-          return false;
+            if (record->event.pressed) {
+              send_min_maj_altcode(FR_CCED, X_P1, X_P9, X_P9); // 'ç/Ç'
+            }
+            return false;
+            
         default:
             return true;  // Les autres touches restent inchangées
     }
@@ -483,15 +495,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [MAC_BASE] = LAYOUT_90_ansi(
+    [ERGOL_BASE] = LAYOUT_90_ansi(
         KC_MUTE,    KC_INS,             KC_F1,    KC_F2,    KC_F3,    KC_F4,  KC_F5,            KC_F6,    KC_F7, KC_F8,      KC_F9,           KC_F10,   KC_F11,    KC_F12,   KC_PGUP,  KC_PGDN,
         MC_1,       KC_ESC,             EL_1,     EL_2,     EL_3,     EL_4,   EL_5,             EL_6,     EL_7,  EL_8,       EL_9,            EL_0,     EL_MINS2,  EL_EQL,   KC_BSPC,  KC_DEL,
         MC_2,       KC_TAB,             FR_Q,     FR_C,     FR_O,     FR_P,   FR_W,             FR_J,     FR_M,  FR_D,       OSL(ERGOL_ACC),  FR_Y,     KC_BSPC,   KC_BSPC,  KC_RSFT,  KC_HOME,
         KC_CAPS,    KC_APP,             FR_A,     FR_S,     FR_E,     FR_N,   FR_F,             FR_L,     FR_R,  FR_T,       FR_I,            FR_U,     KC_ENT,        KC_ENT,         KC_END,
         KC_PSCR,    KC_LSFT,            FR_Z,     FR_X,     EL_MINS,  FR_V,   FR_B,       FR_B, EL_DOT,   FR_H,  FR_G,       EL_COMM,         FR_K,         KC_DEL,         KC_UP,
-        KC_LCTL,    KC_LCTL,  KC_LWIN,           KC_LALT,          KC_SPC,  KC_LSFT,            MO(ERGOL_SPE),   MO(MAC_FN), KC_RCTL,                             KC_LEFT,  KC_DOWN,  KC_RGHT),
+        KC_LCTL,    KC_LCTL,  KC_LWIN,           KC_LALT,          KC_SPC,  KC_LSFT,            MO(ERGOL_SPE),   MO(ERGOL_FN), KC_RCTL,                             KC_LEFT,  KC_DOWN,  KC_RGHT),
 
-    [MAC_FN] = LAYOUT_90_ansi(
+    [ERGOL_FN] = LAYOUT_90_ansi(
         _______,    _______,            KC_BRID,  KC_BRIU,  KC_MCTL,  KC_LPAD,  _______,             _______,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,  _______,   _______,
         _______,     KC_NUM,            _______,  _______,  _______,  _______,  _______,             _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,
         _______,    _______,            KC_TAB ,  KC_HOME,  KC_UP  ,  KC_END ,  KC_PGUP,             _______,  EL_7   ,  EL_8   ,  EL_9   ,  _______,  _______,  _______,  _______,   _______,
@@ -503,7 +515,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,    _______,            _______,    _______,    _______,    _______,     _______,           _______, _______,    _______,    _______,     _______,    _______,   _______,   _______,        _______,
         _______,    _______,            _______,    _______,   FR_O_TREMA,  _______,     _______,           _______, _______,    _______,    _______,     _______,    _______,   _______,   _______,        _______,
         _______,    _______,            FR_A_CIRC,  EL_CCED,   FR_O_CIRC,   FR_CURRENCY, _______,           _______, FR_MICR,    FR_UNDS,    FR_DQUO,     FR_U_CIRC,  _______,   _______,   _______,        _______,
-        _______,    _______,            EL_AACC,    EL_EACC,    FR_EGRV,    FR_E_CIRC,   _______,           _______, _______,    FR_I_CIRC,  FR_I_TREMA,  FR_UGRV,    _______,        _______,              _______,
+        _______,    _______,            EL_AACC,    EL_EACC,    EL_EGRV,    FR_E_CIRC,   _______,           _______, _______,    FR_I_CIRC,  FR_I_TREMA,  EL_UACC,    _______,        _______,              _______,
         _______,    _______,            _______,    _______,   FR_E_TREMA,  _______,     _______, _______,  _______, _______,    _______,    _______,     _______,           _______,        _______,
         _______,    _______,   _______,             _______,          FR_QUOT,           _______,                 FR_QUOT,       _______,    _______,                             _______,   _______,   _______), 
 
@@ -541,8 +553,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
-    [MAC_BASE]   = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
-    [MAC_FN]     = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI) },
+    [ERGOL_BASE] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+    [ERGOL_FN]   = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
     [WIN_BASE]   = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
     [WIN_FN]     = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI) },
     [ERGOL_ACC]  = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
