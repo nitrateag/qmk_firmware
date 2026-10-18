@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:keyboards/keychron/x0/mcuconf.h
-/* Copyright 2020 QMK
-========
 /* Copyright 2022 ~ 2025 @ Keychron (https://www.keychron.com)
->>>>>>>> c8b2b237b4ef09765e48cbb5c1fdb0afd164289f:keyboards/keychron/common/keychron_task.h
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,15 +19,7 @@
 #include "stdint.h"
 #include "action.h"
 
-<<<<<<<< HEAD:keyboards/keychron/x0/mcuconf.h
-#undef STM32_PLLM_VALUE
-#define STM32_PLLM_VALUE 8
-
-#undef STM32_I2C_USE_I2C1
-#define STM32_I2C_USE_I2C1 TRUE
-========
 bool keychron_task_kb(void);
 bool process_record_keychron_kb(uint16_t keycode, keyrecord_t *record);
 
 void keychron_task(void);
->>>>>>>> c8b2b237b4ef09765e48cbb5c1fdb0afd164289f:keyboards/keychron/common/keychron_task.h

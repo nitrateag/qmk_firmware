@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:keyboards/monsgeek/m2/mcuconf.h
-/* Copyright (C) 2023 jonylee@hfd
-========
 /* Copyright 2024 ~ 2025 @ Keychron (https://www.keychron.com)
->>>>>>>> c8b2b237b4ef09765e48cbb5c1fdb0afd164289f:keyboards/keychron/k3_version_3/mcuconf.h
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,20 +13,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #pragma once
 
 #include_next <mcuconf.h>
 
-<<<<<<<< HEAD:keyboards/monsgeek/m2/mcuconf.h
-#undef WB32_SPI_USE_QSPI
-#define WB32_SPI_USE_QSPI TRUE
-
-#undef WB32_I2C_USE_I2C1
-#define WB32_I2C_USE_I2C1 TRUE
-========
 #undef WB32_I2C_USE_I2C1
 #define WB32_I2C_USE_I2C1 TRUE
 
 #undef WB32_SPI_USE_QSPI
 #define WB32_SPI_USE_QSPI TRUE
->>>>>>>> c8b2b237b4ef09765e48cbb5c1fdb0afd164289f:keyboards/keychron/k3_version_3/mcuconf.h
