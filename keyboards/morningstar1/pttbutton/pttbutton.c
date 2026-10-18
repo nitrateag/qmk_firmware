@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:keyboards/morningstar1/pttbutton/pttbutton.c
 /* Copyright 2026 Sebastian Morgenstern
+========
+/* Copyright 2022 ~ 2025 @ lokher (https://www.keychron.com)
+>>>>>>>> c8b2b237b4ef09765e48cbb5c1fdb0afd164289f:keyboards/keychron/bluetooth/bluetooth_main.c
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,7 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #include "quantum.h"
+<<<<<<<< HEAD:keyboards/morningstar1/pttbutton/pttbutton.c
 #include "hal.h"
 
 void board_init(void) {
@@ -39,4 +45,25 @@ void keyboard_post_init_kb(void) {
     gpio_write_pin_low(A15);
 
     keyboard_post_init_user();
+========
+#include "bluetooth.h"
+#include "transport.h"
+
+__attribute__((weak)) void bluetooth_pre_task(void) {}
+__attribute__((weak)) void bluetooth_post_task(void) {}
+
+void bluetooth_tasks(void) {
+    bluetooth_pre_task();
+    bluetooth_task();
+    bluetooth_post_task();
+
+    /* usb_remote_wakeup() should be invoked last so that we have chance
+     * to switch to bluetooth after start-up when usb is not connected
+     */
+    if (get_transport() == TRANSPORT_USB) usb_remote_wakeup();
+}
+
+void housekeeping_task_kb(void) {
+    bluetooth_tasks();
+>>>>>>>> c8b2b237b4ef09765e48cbb5c1fdb0afd164289f:keyboards/keychron/bluetooth/bluetooth_main.c
 }
